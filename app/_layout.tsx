@@ -1,12 +1,12 @@
 import { Stack } from "expo-router";
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useRef, useState } from "react";
 import { Animated, Easing, Text, View } from "react-native";
-import * as SplashScreen from 'expo-splash-screen';
 import '../global.css';
 import { useAuthStore } from "../store/useAuthStore";
-import { supabase } from "../utils/supabase";
 import { registerForLocalNotificationsAsync } from '../utils/notifications';
+import { supabase } from "../utils/supabase";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -70,6 +70,7 @@ export default function RootLayout() {
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#0D0D0D' } }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="add-habit" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="edit-habit" options={{ presentation: 'modal' }} />
         <Stack.Screen name="habit/[id]" />
       </Stack>
 

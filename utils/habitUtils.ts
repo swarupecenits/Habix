@@ -1,4 +1,4 @@
-import { PlantStage } from '../types/habit';
+import { FloraType, PlantStage } from '../types/habit';
 
 export const getTodayStr = () => {
   const date = new Date();
@@ -46,14 +46,32 @@ export const calculateStreak = (completedDates: string[]): number => {
   return streak;
 };
 
-export const getPlantStage = (streak: number): PlantStage => {
-  if (streak <= 2) return 0; // Seed
-  if (streak <= 6) return 1; // Sprout
-  if (streak <= 13) return 2; // Small plant
-  if (streak <= 20) return 3; // Growing plant
-  return 4; // Full bloom
+export const getPlantStage = (streak: number, type: FloraType = 'oak'): PlantStage => {
+  if (type === 'oak') {
+    // Oak grows slow but is majestic
+    if (streak <= 2) return 0;
+    if (streak <= 7) return 1;
+    if (streak <= 15) return 2;
+    if (streak <= 30) return 3;
+    return 4;
+  } else if (type === 'bamboo') {
+    // Bamboo springs up quickly
+    if (streak <= 1) return 0;
+    if (streak <= 3) return 1;
+    if (streak <= 7) return 2;
+    if (streak <= 14) return 3;
+    return 4;
+  } else {
+    // Vine: moderate pace with fruiting progression
+    if (streak <= 2) return 0;
+    if (streak <= 5) return 1;
+    if (streak <= 12) return 2;
+    if (streak <= 21) return 3;
+    return 4;
+  }
 };
 
-export const calculateGrowthScore = (streak: number): number => {
-  return Math.min(100, Math.floor((streak / 21) * 100)); 
+export const calculateGrowthScore = (streak: number, type: FloraType = 'oak'): number => {
+  const maxStreak = type === 'oak' ? 30 : type === 'bamboo' ? 14 : 21;
+  return Math.min(100, Math.floor((streak / maxStreak) * 100)); 
 };

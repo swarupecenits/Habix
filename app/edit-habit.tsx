@@ -1,7 +1,7 @@
 import * as Haptics from 'expo-haptics';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { X } from 'lucide-react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { COLORS } from '../constants/theme';
 import { useHabitStore } from '../store/useHabitStore';
@@ -14,17 +14,27 @@ const FLORA_TYPES: { id: FloraType; label: string; icon: string; desc: string }[
   { id: 'vine', label: 'Fruiting Vine', icon: '🍇', desc: 'Diet & Water: Moderate pace, bears fruit.' },
 ];
 
-export default function AddHabit() {
+export default function EditHabit() {
+  const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const addHabit = useHabitStore((state) => state.addHabit);
+  
+  const habits = useHabitStore((state) => state.habits);
+  const updateHabit = useHabitStore((state) => state.updateHabit);
   const hapticsEnabled = useProfileStore((state) => state.hapticsEnabled);
   
-  const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('mindfulness');
-  const [floraType, setFloraType] = useState<FloraType>('oak');
+  const existingHabit = habits.find((h) => h.id === id);
+
+  const [title, setTitle] = useState(existingHabit?.title || '');
+  const [floraType, setFloraType] = useState<FloraType>(existingHabit?.floraType || 'oak');
+
+  useEffect(() => {
+    if (!existingHabit) {
+      router.back();
+    }
+  }, [existingHabit]);
 
   const handleSave = () => {
-    if (!title.trim()) {
+    if (!title.trim() || !existingHabit) {
       if (hapticsEnabled) {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       }
@@ -34,9 +44,16 @@ export default function AddHabit() {
     if (hapticsEnabled) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     }
-    addHabit(title, category, COLORS.accent, floraType);
+    
+    updateHabit(existingHabit.id, {
+      title,
+      floraType
+    });
+    
     router.back();
   };
+
+  if (!existingHabit) return <View className="flex-1 bg-black" />;
 
   return (
     <KeyboardAvoidingView 
@@ -46,7 +63,7 @@ export default function AddHabit() {
     >
       <ScrollView showsVerticalScrollIndicator={false}>
       <View className="flex-row justify-between items-center mb-8">
-        <Text className="text-3xl font-extrabold text-white">New Seed 🌱</Text>
+        <Text className="text-3xl font-extrabold text-white">Edit Seed ✂️</Text>
         <TouchableOpacity onPress={() => router.back()} className="p-2 bg-zinc-800 rounded-full">
           <X color="white" size={24} />
         </TouchableOpacity>
@@ -84,7 +101,7 @@ export default function AddHabit() {
         disabled={!title.trim()}
         onPress={handleSave}
       >
-        <Text className="text-2xl font-bold text-black">Plant {floraType === 'oak' ? 'Oak' : floraType === 'bamboo' ? 'Bamboo' : 'Vine'} Seed</Text>
+        <Text className="text-2xl font-bold text-black">Update {floraType === 'oak' ? 'Oak' : floraType === 'bamboo' ? 'Bamboo' : 'Vine'}</Text>
       </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>

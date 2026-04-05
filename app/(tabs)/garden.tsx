@@ -96,11 +96,17 @@ export default function Garden() {
         {habits.map((habit, index) => {
           const goldenAngle = 2.4; 
           const angle = index * goldenAngle;
-          // Dynamically space out the spiral based on flower size
-          const radius = 95 + (index * 26); 
           
-          const xPos = Math.cos(angle) * (radius * 1.1); 
-          const yPos = Math.sin(angle) * radius;
+          // Max allowed radius so flowers don't go off-screen
+          // width/2 is the center. Subtract 50px so the flower plus a margin stays on screen.
+          const maxRadius = (width / 2) - 50; 
+          
+          // Dynamically space out the spiral, but cap it at maxRadius
+          const calculatedRadius = 70 + (index * 20); 
+          const radius = Math.min(calculatedRadius, maxRadius);
+          
+          const xPos = Math.cos(angle) * radius;
+          const yPos = Math.sin(angle) * (radius * 1.1); // Slightly taller vertically
 
           return (
             <View 

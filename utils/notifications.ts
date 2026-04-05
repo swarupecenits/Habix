@@ -38,13 +38,20 @@ export async function testNotification() {
   let bodyText = "This is how your daily reminder will look!";
   
   try {
-    const res = await fetch('https://zenquotes.io/api/random');
+    const res = await fetch('https://quotes15.p.rapidapi.com/quotes/random/?language_code=en', {
+      method: 'GET',
+      headers: {
+        'x-rapidapi-key': process.env.EXPO_PUBLIC_RAPIDAPI_KEY || '',
+        'x-rapidapi-host': 'quotes15.p.rapidapi.com',
+        'Content-Type': 'application/json'
+      }
+    });
     const data = await res.json();
-    if (data && data.length > 0) {
-      bodyText = `"${data[0].q}" - ${data[0].a}`;
+    if (data && data.content) {
+      bodyText = `"${data.content}" - ${data.originator?.name || 'Unknown'}`;
     }
   } catch (e) {
-    console.log("Failed to fetch zenquotes test", e);
+    console.log("Failed to fetch rapidapi test", e);
   }
 
   await Notifications.scheduleNotificationAsync({
@@ -69,10 +76,22 @@ export async function scheduleDailyReminder(timeString: string | null) {
 
   let quotes: any[] = [];
   try {
-    const res = await fetch('https://zenquotes.io/api/quotes');
-    quotes = await res.json();
+    for (let i = 0; i < 30; i++) {
+        const res = await fetch('https://quotes15.p.rapidapi.com/quotes/random/?language_code=en', {
+          method: 'GET',
+          headers: {
+            'x-rapidapi-key': process.env.EXPO_PUBLIC_RAPIDAPI_KEY || '',
+            'x-rapidapi-host': 'quotes15.p.rapidapi.com',
+            'Content-Type': 'application/json'
+          }
+        });
+        const data = await res.json();
+        if (data && data.content) {
+            quotes.push(data);
+        }
+    }
   } catch (e) {
-    console.log("Failed to fetch zenquotes array", e);
+    console.log("Failed to fetch rapidapi array", e);
   }
 
   // If we couldn't fetch quotes, fall back to the simple generic daily repeating reminder
@@ -103,7 +122,7 @@ export async function scheduleDailyReminder(timeString: string | null) {
     triggerDate.setDate(triggerDate.getDate() + i);
 
     const quoteObj = quotes[i];
-    const bodyText = `"${quoteObj.q}" - ${quoteObj.a}`;
+    const bodyText = `"${quoteObj.content}" - ${quoteObj.originator?.name || 'Unknown'}`;
 
     await Notifications.scheduleNotificationAsync({
       content: {

@@ -21,7 +21,8 @@
         "monochromeImage": "./assets/images/ios/AppIcon-1024.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.swarupcsenits.Habix"
     },
     "web": {
       "output": "static",
@@ -46,6 +47,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c41be84f-3bc1-41be-aa26-75054d6390a5"
+      }
     }
   }
 }
