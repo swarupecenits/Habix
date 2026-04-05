@@ -80,7 +80,7 @@ export default function EditHabit() {
       />
 
       <Text className="text-lg font-medium text-slate-400 mb-2 mt-4">Select Seed Type</Text>
-      <View className="space-y-3 mb-6">
+      <View className="mb-6" style={{ gap: 12 }}>
         {FLORA_TYPES.map((type) => (
           <TouchableOpacity
             key={type.id}

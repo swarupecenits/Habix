@@ -5,8 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import { Animated, Easing, Text, View } from "react-native";
 import '../global.css';
 import { useAuthStore } from "../store/useAuthStore";
+import { useProfileStore } from "../store/useProfileStore";
 import { registerForLocalNotificationsAsync } from '../utils/notifications';
 import { supabase } from "../utils/supabase";
+import { restoreProfileFromCloud } from '../utils/syncService';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -18,13 +20,34 @@ export default function RootLayout() {
   const opacity = useRef(new Animated.Value(1)).current;
   const scale = useRef(new Animated.Value(0.8)).current;
 
+  // Auto-restore profile metadata silently in background on boot
+  const syncProfileStateIfAvailable = async (userId: string) => {
+    try {
+      const cloudProfile = await restoreProfileFromCloud(userId);
+      if (cloudProfile) {
+        useProfileStore.getState().updateProfile({
+          name: cloudProfile.name || 'Gardener',
+          avatarUri: cloudProfile.avatar_url || null,
+        });
+      }
+    } catch (e) {
+      console.log('Background profile restore failed', e);
+    }
+  };
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
+      if (session?.user) {
+        syncProfileStateIfAvailable(session.user.id);
+      }
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
+      if (session?.user) {
+        syncProfileStateIfAvailable(session.user.id);
+      }
     });
 
     // Ask for notification permissions slightly after boot to avoid blocking UI immediately

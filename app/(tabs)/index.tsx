@@ -33,21 +33,21 @@ export default function Home() {
     <View className="flex-1 bg-[#09090b] justify-start relative">
       <StatusBar barStyle="light-content" />
       
-      {/* Aesthetic Background Gradient Orbs */}
-      <View className="absolute top-[-100] left-[-100] w-96 h-96 bg-emerald-900/30 rounded-full blur-[100px] opacity-60" />
-      <View className="absolute top-[20%] right-[30%] w-72 h-72 bg-indigo-900/20 rounded-full blur-[80px] opacity-40" />
+      {/* Aesthetic Background Gradient Orbs - Subdued */}
+      <View className="absolute top-[-100] left-[-100] w-96 h-96 bg-emerald-900/10 rounded-full blur-[120px] opacity-30" />
+      <View className="absolute top-[20%] right-[30%] w-72 h-72 bg-indigo-900/10 rounded-full blur-[100px] opacity-20" />
 
-      {/* Glassmorphic Header */}
-      <View className="z-10 bg-transparent flex-row justify-between items-center px-6 pt-20 pb-8 rounded-b-[40px] overflow-hidden border-b border-white/5 shadow-2xl shadow-black">
+      {/* Glassmorphic Header - Minimal */}
+      <View className="z-10 bg-transparent flex-row justify-between items-center px-6 pt-20 pb-6 rounded-b-[32px] overflow-hidden border-b border-white/5">
         <View className="absolute inset-0">
-          <BlurView intensity={30} tint="dark" className="flex-1 bg-black/40" />
+          <BlurView intensity={20} tint="dark" className="flex-1 bg-black/40" />
         </View>
         <View className="flex-1">
-          <Text className="text-sm text-emerald-300/80 font-bold uppercase tracking-widest mb-1.5 shadow-sm">{greeting}</Text>
-          <Text className="text-4xl font-black text-white tracking-tight drop-shadow-lg" numberOfLines={1}>{name} <Text className="text-3xl">{emoji}</Text></Text>
+          <Text className="text-xs text-zinc-400 font-medium uppercase tracking-widest mb-1">{greeting}</Text>
+          <Text className="text-3xl font-bold text-white tracking-tight" numberOfLines={1}>{name} <Text className="text-2xl">{emoji}</Text></Text>
         </View>
         {(avatarUri || name !== 'Gardener') && (
-          <View className="w-14 h-14 rounded-full ml-4 border-2 border-emerald-900/50 bg-black overflow-hidden shadow-lg items-center justify-center">
+          <View className="w-12 h-12 rounded-full ml-4 border border-zinc-800 bg-zinc-900 overflow-hidden items-center justify-center">
             {avatarUri ? (
               <Image source={{ uri: avatarUri }} className="w-full h-full" />
             ) : (

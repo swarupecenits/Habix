@@ -37,7 +37,7 @@ export default function AuthModal({ visible, onClose }: AuthModalProps) {
 
       const cloudProfile = await restoreProfileFromCloud(userId);
       if (cloudProfile) {
-        useProfileStore.setState({
+        useProfileStore.getState().updateProfile({
           name: cloudProfile.name || "Gardener",
           avatarUri: cloudProfile.avatar_url || null,
         });
@@ -83,7 +83,12 @@ export default function AuthModal({ visible, onClose }: AuthModalProps) {
     if (error) Alert.alert("Error", error.message);
     else if (!session)
       Alert.alert("Success", "Please check your inbox for email verification!");
-    else onClose();
+    else {
+      if (session?.user) {
+        await performAutoCloudRestore(session.user.id);
+      }
+      onClose();
+    }
     setLoading(false);
   }
 
