@@ -10,10 +10,19 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: COLORS.card,
           borderTopWidth: 0,
-          elevation: 0,
-          height: 60,
-          paddingBottom: 10,
-          paddingTop: 10,
+          elevation: 10, // soft shadow for Android
+          shadowColor: '#000', // shadow for iOS
+          shadowOffset: { width: 0, height: 8 },
+          shadowOpacity: 0.4,
+          shadowRadius: 15,
+          height: 65,
+          paddingBottom: 8,
+          paddingTop: 8,
+          position: 'absolute', // required to make it float
+          bottom: 20, // moves the box 20px up from the screen bottom
+          left: 20, // side margins
+          right: 20,
+          borderRadius: 30, // fully rounded edges for a pill effect
         },
         tabBarActiveTintColor: COLORS.accent,
         tabBarInactiveTintColor: COLORS.textDim,
