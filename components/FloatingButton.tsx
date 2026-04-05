@@ -1,9 +1,12 @@
+import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { Plus } from 'lucide-react-native';
 import { TouchableOpacity } from 'react-native';
+import { useProfileStore } from '../store/useProfileStore';
 
 export default function FloatingButton() {
   const router = useRouter();
+  const hapticsEnabled = useProfileStore((state) => state.hapticsEnabled);
 
   return (
     <TouchableOpacity
@@ -20,7 +23,12 @@ export default function FloatingButton() {
         shadowRadius: 8,
         zIndex: 50 
       }}
-      onPress={() => router.push('/add-habit')}
+      onPress={() => {
+        if (hapticsEnabled) {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        }
+        router.push('/add-habit');
+      }}
     >
       <Plus color="black" size={32} strokeWidth={2.5} />
     </TouchableOpacity>

@@ -1,10 +1,21 @@
+import * as Haptics from 'expo-haptics';
 import { Tabs } from 'expo-router';
 import { BarChart2, Home, Settings, Sprout } from 'lucide-react-native';
 import { COLORS } from '../../constants/theme';
+import { useProfileStore } from '../../store/useProfileStore';
 
 export default function TabLayout() {
+  const hapticsEnabled = useProfileStore((state) => state.hapticsEnabled);
+
   return (
     <Tabs
+      screenListeners={{
+        tabPress: () => {
+          if (hapticsEnabled) {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }
+        },
+      }}
       screenOptions={{
         headerShown: false,
         tabBarStyle: {

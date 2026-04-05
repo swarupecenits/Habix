@@ -1,50 +1,118 @@
-# Welcome to your Expo app 👋
+<div align="center">
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+  <img src="./assets/images/ios/AppIcon-1024.png" alt="Habix Logo" width="150" height="150" style="border-radius: 30px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);"/>
 
-## Get started
+# 🌿 Habix: Grow Your Garden
 
-1. Install dependencies
+**Transform daily consistency into beautiful plant growth.**  
+ _Where your real-world habits nurture a thriving digital ecosystem._
 
-   ```bash
-   npm install
-   ```
+  <br/>
 
-2. Start the app
+[![Expo](https://img.shields.io/badge/Built_with-Expo-000020?style=for-the-badge&logo=expo&logoColor=white)](https://expo.dev/)
+[![React Native](https://img.shields.io/badge/Powered_by-React_Native-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactnative.dev/)
+[![Supabase](https://img.shields.io/badge/Database-Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Styled_with-NativeWind-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://www.nativewind.dev/)
 
-   ```bash
-   npx expo start
-   ```
+</div>
 
-In the output, you'll find options to open the app in a
+<br/>
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🌌 The Ecosystem
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Welcome to **Habix**, an aesthetically driven habit tracker designed to reduce anxiety and inspire consistency. Instead of focusing merely on rigid streaks and endless to-do lists, Habix visualizes your progress as a living, breathing **Grand Tree**. Every good habit you complete adds a petal, evolving your seed into a beautiful garden.
 
-## Get a fresh project
+<p align="center">
+  <img src="./assets/images/screenshot-5-1080x2400.png" alt="Splash Screen" width="19%" style="border-radius: 20px;" />
+  <img src="./assets/images/screenshot-2-1080x2400.png" alt="Track Habits" width="19%" style="border-radius: 20px;" />
+  <img src="./assets/images/screenshot-1-1080x2400.png" alt="The Grand Tree" width="19%" style="border-radius: 20px;" />
+  <img src="./assets/images/screenshot-3-1800x2560.png" alt="Insights" width="19%" style="border-radius: 20px;" />
+  <img src="./assets/images/screenshot-4-1800x2560.png" alt="Profile and Zen Mode" width="19%" style="border-radius: 20px;" />
+</p>
 
-When you're ready, run:
+---
+
+## 🌟 Unique Features
+
+- 🪴 **The Grand Tree**: Your digital pet that thrives on your discipline. Watch branches and petals grow in real-time as you tick off daily goals.
+- 🧘‍♂️ **Zen Mode**: Hide numerical streaks to reduce habit-anxiety. Focus purely on the nature of your plant and behavioral change.
+- 📊 **Beautiful Insights**: Elegantly crafted analytics showing your total petals, today's completion rate, best streaks, and weekly activity.
+- ☁️ **Seamless Cloud Sync**: Powered by Supabase, your ecology is safeguarded. Start on one device, continue nurturing your tree on another.
+- 🎨 **Aesthetic Dark Mode**: Specifically designed UI that leverages deep greens and charcoal blacks to create a mindful, grounding experience.
+
+<br/>
+
+## 🏗️ Technical Architecture
+
+Habix is engineered using modern mobile development paradigms for blazing fast performance and smooth UI/UX:
+
+- **Framework:** React Native + Expo Router (File-based navigation)
+- **Styling:** NativeWind (Tailwind CSS for React Native)
+- **State Management:** Zustand (Tiny, fast state management for `auth`, `habits`, and `profile`)
+- **Backend:** Supabase (PostgreSQL, Auth, Realtime Sync)
+- **Animations:** Lottie (for seamless plant visual loader)
+
+<br/>
+
+## 🚀 Getting Started
+
+To run the Habix garden locally and begin contributing to the ecosystem, adhere to the following steps:
+
+### 1. Clone the Repository
 
 ```bash
-npm run reset-project
+git clone https://github.com/swarupecenits/Habix.git
+cd Habix
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Install Dependencies
 
-## Learn more
+```bash
+npm install
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+### 3. Environment Variables
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Create a `.env` file at the root of the project and plug in your Supabase credentials:
 
-## Join the community
+```env
+EXPO_PUBLIC_SUPABASE_URL=your_supabase_url
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-Join our community of developers creating universal apps.
+### 4. Start the Expo Server
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+npx expo start
+```
+
+_Press `a` to open Android, `i` to open iOS simulator, or scan the QR Code using the Expo Go app._
+
+```bash
+npx expo start
+```
+
+*Press `a` to open Android, `i` to open iOS simulator, or scan the QR Code using the Expo Go app.*
+
+<br/>
+
+## 📁 Repository Map
+
+```text
+Habix/
+├── app/               # Expo Router pages (Screens: Home, Garden, Insights)
+├── assets/            # App icons, splash screens, lush UI screenshots, Lottie files
+├── components/        # Reusable UI components (HabitCard, PlantVisual, AuthModal)
+├── constants/         # Theming variables and app-wide constants
+├── store/             # Zustand stores (useAuthStore, useHabitStore, useProfileStore)
+├── types/             # TypeScript interfaces and models
+└── utils/             # Helper functions (Supabase client, Sync Service, Utils)
+```
+
+<br/>
+
+---
+
+<div align="center">
+  <sub>Built with mindfulness by <a href="https://github.com/swarupecenits">swarupecenits</a>. Keep growing! 🍃</sub>
+</div>

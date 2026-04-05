@@ -1,12 +1,14 @@
 import { BlurView } from 'expo-blur';
-import { FlatList, StatusBar, Text, View } from 'react-native';
+import { FlatList, Image, StatusBar, Text, View } from 'react-native';
 import FloatingButton from '../../components/FloatingButton';
 import HabitCard from '../../components/HabitCard';
 import { useHabitStore } from '../../store/useHabitStore';
+import { useProfileStore } from '../../store/useProfileStore';
 import { getTodayStr } from '../../utils/habitUtils';
 
 export default function Home() {
   const { habits, toggleHabitCompletion } = useHabitStore();
+  const { name, avatarUri } = useProfileStore();
   const todayStr = getTodayStr();
 
   const hour = new Date().getHours();
@@ -40,10 +42,19 @@ export default function Home() {
         <View className="absolute inset-0">
           <BlurView intensity={30} tint="dark" className="flex-1 bg-black/40" />
         </View>
-        <View>
+        <View className="flex-1">
           <Text className="text-sm text-emerald-300/80 font-bold uppercase tracking-widest mb-1.5 shadow-sm">{greeting}</Text>
-          <Text className="text-4xl font-black text-white tracking-tight drop-shadow-lg">Swarup <Text className="text-3xl">{emoji}</Text></Text>
+          <Text className="text-4xl font-black text-white tracking-tight drop-shadow-lg" numberOfLines={1}>{name} <Text className="text-3xl">{emoji}</Text></Text>
         </View>
+        {(avatarUri || name !== 'Gardener') && (
+          <View className="w-14 h-14 rounded-full ml-4 border-2 border-emerald-900/50 bg-black overflow-hidden shadow-lg items-center justify-center">
+            {avatarUri ? (
+              <Image source={{ uri: avatarUri }} className="w-full h-full" />
+            ) : (
+              <Text className="text-xl">🧑‍🌾</Text>
+            )}
+          </View>
+        )}
       </View>
 
       {/* Main Content */}

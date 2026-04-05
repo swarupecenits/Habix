@@ -1,19 +1,31 @@
+import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { X } from 'lucide-react-native';
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { COLORS } from '../constants/theme';
 import { useHabitStore } from '../store/useHabitStore';
+import { useProfileStore } from '../store/useProfileStore';
 
 export default function AddHabit() {
   const router = useRouter();
   const addHabit = useHabitStore((state) => state.addHabit);
+  const hapticsEnabled = useProfileStore((state) => state.hapticsEnabled);
   
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('mindfulness');
 
   const handleSave = () => {
-    if (!title.trim()) return;
+    if (!title.trim()) {
+      if (hapticsEnabled) {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+      }
+      return;
+    }
+    
+    if (hapticsEnabled) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    }
     addHabit(title, category, COLORS.accent);
     router.back();
   };
