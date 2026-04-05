@@ -22,6 +22,25 @@ export default function HabitCard({ habit, isCompletedToday, onToggle }: HabitCa
   const iconScale = useSharedValue(1);
   const cardScale = useSharedValue(1);
 
+  // "Composting" exiting animation for organic row deletion
+  const compostingExiting = () => {
+    'worklet';
+    return {
+      initialValues: {
+        transform: [{ scale: 1 }, { rotate: '0deg' }, { translateY: 0 }],
+        opacity: 1,
+      },
+      animations: {
+        transform: [
+          { scale: withTiming(0, { duration: 350, easing: Easing.inOut(Easing.ease) }) },
+          { rotate: withTiming('12deg', { duration: 350, easing: Easing.inOut(Easing.ease) }) },
+          { translateY: withTiming(50, { duration: 350, easing: Easing.inOut(Easing.ease) }) }
+        ],
+        opacity: withTiming(0, { duration: 350, easing: Easing.out(Easing.quad) }),
+      },
+    };
+  };
+
   useEffect(() => {
     if (isCompletedToday) {
       // Quick pop of the icon itself
@@ -71,7 +90,11 @@ export default function HabitCard({ habit, isCompletedToday, onToggle }: HabitCa
   }));
 
   return (
-    <Animated.View style={containerStyle} className="mb-3">
+    <Animated.View 
+      style={containerStyle} 
+      className="mb-3"
+      exiting={compostingExiting}
+    >
       <View className={`rounded-[20px] overflow-hidden border ${isCompletedToday ? 'bg-emerald-950/20 border-emerald-900/30' : 'bg-zinc-900/40 border-zinc-800/50'}`}>
         <Pressable 
           className="p-4 py-4 flex-row items-center" 

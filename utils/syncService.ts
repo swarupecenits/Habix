@@ -4,15 +4,38 @@ import { Habit } from '../types/habit';
 import { supabase } from './supabase';
 
 export const backupHabitsToCloud = async (habits: Habit[], userId: string) => {
-  const payload = habits.map(h => ({
-    id: h.id,
-    user_id: userId,
-    title: h.title,
-    streak: h.streak,
-    completedDates: h.completedDates,
-    plantStage: h.plantStage,
-    growthScore: h.growthScore,
-  }));
+  // 1. Fetch existing cloud habits for this user
+  const { data: existingCloudHabits, error: fetchError } = await supabase
+    .from('habits')
+    .select('id, title, streak, "completedDates"')
+    .eq('user_id', userId);
+
+  if (fetchError) throw fetchError;
+
+  // 2. Prepare payload, preventing duplicates by matching titles
+  const payload = habits.map(localHabit => {
+    // Look for a cloud habit with the exact same title (case-insensitive)
+    const matchingCloudHabit = existingCloudHabits?.find(
+      ch => ch.title.trim().toLowerCase() === localHabit.title.trim().toLowerCase()
+    );
+
+    // Merge completed dates to prevent data loss 
+    let mergedDates = localHabit.completedDates || [];
+    if (matchingCloudHabit && matchingCloudHabit.completedDates) {
+      mergedDates = Array.from(new Set([...mergedDates, ...matchingCloudHabit.completedDates]));
+    }
+
+    return {
+      // If a matching cloud habit exists, FORCE use its ID to overwrite instead of creating a new duplicate
+      id: matchingCloudHabit ? matchingCloudHabit.id : localHabit.id,
+      user_id: userId,
+      title: localHabit.title,
+      streak: Math.max(localHabit.streak, matchingCloudHabit?.streak || 0),
+      completedDates: mergedDates,
+      plantStage: localHabit.plantStage,
+      growthScore: localHabit.growthScore,
+    };
+  });
 
   const { data, error } = await supabase
     .from('habits')
