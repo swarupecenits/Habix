@@ -34,9 +34,20 @@ const AnimatedFlower = ({ habit, index }: { habit: Habit; index: number }) => {
   const scaleStyle = useAnimatedStyle(() => ({ transform: [{ scale: pulse.value }] }));
   const spinStyle = useAnimatedStyle(() => ({ transform: [{ rotate: `${rotate.value}deg` }] }));
 
+  const ELEGANT_PALETTES = [
+    '#fbcfe8', // Rose
+    '#ddd6fe', // Violet
+    '#bae6fd', // Azure
+    '#99f6e4', // Teal
+    '#fde68a', // Amber
+    '#fecaca', // Coral
+    '#bbf7d0', // Emerald
+    '#e9d5ff', // Indigo
+  ];
+
   // Represent days with petals (capped visually at 24 to not overcrowd the SVG)
   const visualPetals = Math.max(5, Math.min(habit.streak, 24)); 
-  const bloomColor = habit.color && habit.color !== '' ? habit.color : '#fbcfe8';
+  const bloomColor = ELEGANT_PALETTES[index % ELEGANT_PALETTES.length];
 
   return (
     <View className="items-center justify-center">

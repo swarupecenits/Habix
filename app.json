@@ -15,7 +15,7 @@
     "android": {
       "icon": "./assets/images/ios/AppIcon-1024.png",
       "adaptiveIcon": {
-        "backgroundColor": "#1e1b21",
+        "backgroundColor": "#09090b",
         "foregroundImage": "./assets/images/ios/AppIcon-1024.png",
         "backgroundImage": "./assets/images/ios/AppIcon-1024.png",
         "monochromeImage": "./assets/images/ios/AppIcon-1024.png"
@@ -36,9 +36,9 @@
           "image": "./assets/images/ios/AppIcon-1024.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#1e1b21",
+          "backgroundColor": "#09090b",
           "dark": {
-            "backgroundColor": "#1e1b21"
+            "backgroundColor": "#09090b"
           }
         }
       ],

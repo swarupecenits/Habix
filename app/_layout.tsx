@@ -65,9 +65,9 @@ export default function RootLayout() {
   }, [appIsReady]);
 
   return (
-    <>
+    <View style={{ flex: 1, backgroundColor: '#09090b' }}>
       <StatusBar style="light" />
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#0D0D0D' } }}>
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#09090b' }, animation: 'slide_from_right' }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="add-habit" options={{ presentation: 'modal' }} />
         <Stack.Screen name="edit-habit" options={{ presentation: 'modal' }} />
@@ -93,7 +93,7 @@ export default function RootLayout() {
           </Animated.View>
         </Animated.View>
       )}
-    </>
+    </View>
   );
 }
 

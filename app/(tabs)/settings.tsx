@@ -1,6 +1,6 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useState } from 'react';
-import { ActivityIndicator, Alert, Image, ScrollView, StatusBar, Switch, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Image, ScrollView, StatusBar, Switch, Text, TouchableOpacity, View, Modal, TouchableWithoutFeedback } from 'react-native';
 import AuthModal from '../../components/AuthModal';
 import EditProfileModal from '../../components/EditProfileModal';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -20,6 +20,7 @@ export default function Settings() {
   
   const [authVisible, setAuthVisible] = useState(false);
   const [editProfileVisible, setEditProfileVisible] = useState(false);
+  const [fullScreenAvatarVisible, setFullScreenAvatarVisible] = useState(false);
   const [syncing, setSyncing] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
 
@@ -144,6 +145,22 @@ export default function Settings() {
       <AuthModal visible={authVisible} onClose={() => setAuthVisible(false)} />
       <EditProfileModal visible={editProfileVisible} onClose={() => setEditProfileVisible(false)} />
       
+      {/* Full Screen Avatar Modal */}
+      <Modal visible={fullScreenAvatarVisible} transparent={true} animationType="fade">
+        <TouchableOpacity 
+          style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.9)', justifyContent: 'center', alignItems: 'center' }} 
+          activeOpacity={1} 
+          onPress={() => setFullScreenAvatarVisible(false)}
+        >
+          {avatarUri && (
+            <Image 
+              source={{ uri: avatarUri }} 
+              style={{ width: '90%', height: '90%', resizeMode: 'contain' }} 
+            />
+          )}
+        </TouchableOpacity>
+      </Modal>
+
       {/* Aesthetic Background Gradient Orbs */}
       <View className="absolute top-[-100] right-[-100] w-96 h-96 bg-purple-900/20 rounded-full blur-[100px] opacity-40" />
       <View className="absolute top-[40%] left-[-50] w-72 h-72 bg-emerald-900/10 rounded-full blur-[80px] opacity-40" />
@@ -168,13 +185,17 @@ export default function Settings() {
         {/* User Profile Card */}
         <View className="bg-zinc-900/60 border border-zinc-800 rounded-[32px] p-6 mb-8 items-center relative overflow-hidden">
           <View className="absolute top-0 left-0 right-0 h-24 bg-emerald-900/20" />
-          <View className="w-24 h-24 bg-black border-4 border-[#09090b] rounded-full items-center justify-center mb-4 mt-4 shadow-xl overflow-hidden">
+          <TouchableOpacity 
+            activeOpacity={0.8}
+            onPress={() => { if (avatarUri) setFullScreenAvatarVisible(true); }}
+            className="w-24 h-24 bg-black border-4 border-[#09090b] rounded-full items-center justify-center mb-4 mt-4 shadow-xl overflow-hidden"
+          >
             {avatarUri ? (
               <Image source={{ uri: avatarUri }} className="w-full h-full" />
             ) : (
               <Text className="text-4xl">{user ? '🦸🏽‍♂️' : '🧑‍🌾'}</Text>
             )}
-          </View>
+          </TouchableOpacity>
           <Text className="text-2xl font-extrabold text-white tracking-tight">
             {name || (user ? user.email?.split('@')[0] : 'Guest Gardener')}
           </Text>

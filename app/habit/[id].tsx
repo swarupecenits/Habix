@@ -99,6 +99,7 @@ export default function HabitDetail() {
 
       <Animated.View
         entering={ZoomIn.duration(1200).springify(400, 25)}
+        exiting={FadeIn.duration(200)}
         className="items-center mb-10"
       >
         <PlantVisual

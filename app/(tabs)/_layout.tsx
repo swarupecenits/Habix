@@ -18,6 +18,8 @@ export default function TabLayout() {
       }}
       screenOptions={{
         headerShown: false,
+        sceneStyle: { backgroundColor: '#09090b' },
+        sceneContainerStyle: { backgroundColor: '#09090b' },
         tabBarStyle: {
           backgroundColor: COLORS.card,
           borderTopWidth: 0,
@@ -30,7 +32,7 @@ export default function TabLayout() {
           paddingBottom: 8,
           paddingTop: 8,
           position: 'absolute', // required to make it float
-          bottom: 20, // moves the box 20px up from the screen bottom
+          bottom: 40, // moves the box 35px up from the screen bottom
           left: 20, // side margins
           right: 20,
           borderRadius: 30, // fully rounded edges for a pill effect
