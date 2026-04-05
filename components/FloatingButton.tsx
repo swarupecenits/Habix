@@ -15,7 +15,7 @@ export default function FloatingButton() {
         width: 64, 
         height: 64, 
         right: 32, 
-        bottom: 100, // Moved up to avoid overlapping with the floating tab bar
+        bottom: 120, // Moved up to avoid overlapping with the floating tab bar
         elevation: 10, 
         shadowColor: '#4ADE80', 
         shadowOffset: { width: 0, height: 4 }, 
