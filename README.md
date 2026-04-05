@@ -26,8 +26,8 @@ Welcome to **Habix**, an aesthetically driven habit tracker designed to reduce a
   <img src="./assets/images/screenshot-5-1080x2400.png" alt="Splash Screen" width="19%" style="border-radius: 20px;" />
   <img src="./assets/images/screenshot-2-1080x2400.png" alt="Track Habits" width="19%" style="border-radius: 20px;" />
   <img src="./assets/images/screenshot-1-1080x2400.png" alt="The Grand Tree" width="19%" style="border-radius: 20px;" />
-  <img src="./assets/images/screenshot-3-1800x2560.png" alt="Insights" width="19%" style="border-radius: 20px;" />
-  <img src="./assets/images/screenshot-4-1800x2560.png" alt="Profile and Zen Mode" width="19%" style="border-radius: 20px;" />
+  <img src="./assets/images/screenshot-3-1080x2400.png" alt="Insights" width="19%" style="border-radius: 20px;" />
+  <img src="./assets/images/screenshot-4-1080x2400.png" alt="Profile and Zen Mode" width="19%" style="border-radius: 20px;" />
 </p>
 
 ---
