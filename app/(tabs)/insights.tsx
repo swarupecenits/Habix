@@ -1,8 +1,8 @@
+import { useEffect } from "react";
 import { ScrollView, StatusBar, Text, View } from "react-native";
-import Animated, { FadeInDown, Easing, useSharedValue, useAnimatedStyle, withTiming, withDelay } from "react-native-reanimated";
+import Animated, { Easing, FadeInDown, useAnimatedStyle, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
 import { useHabitStore } from "../../store/useHabitStore";
 import { getTodayStr } from "../../utils/habitUtils";
-import { useEffect } from "react";
 
 // Helper to get the last 7 days for the chart
 const getPast7Days = () => {
@@ -10,7 +10,13 @@ const getPast7Days = () => {
   for (let i = 6; i >= 0; i--) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    const dateStr = d.toISOString().split("T")[0];
+    
+    // Explicit local formatting to prevent timezone shifting
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const dateStr = `${year}-${month}-${day}`;
+    
     const dayName = d.toLocaleDateString("en-US", { weekday: "short" });
     dates.push({ dateStr, dayName });
   }
@@ -32,8 +38,12 @@ const getMonthData = () => {
 
   // Actual days in the month
   for (let i = 1; i <= lastDay.getDate(); i++) {
-    const d = new Date(now.getFullYear(), now.getMonth(), i, 12, 0, 0); // Noon to avoid tz shift
-    const dateStr = d.toISOString().split("T")[0];
+    // Exact local date formatting strings
+    const year = now.getFullYear();
+    const monthStr = String(now.getMonth() + 1).padStart(2, '0');
+    const dayStr = String(i).padStart(2, '0');
+    const dateStr = `${year}-${monthStr}-${dayStr}`;
+    
     days.push({ day: i, dateStr });
   }
 

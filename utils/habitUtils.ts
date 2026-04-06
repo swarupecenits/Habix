@@ -8,10 +8,47 @@ export const getTodayStr = () => {
   return `${year}-${month}-${day}`;
 };
 
+// Extremely robust Date parser that prevents UTC Midnight timezone calculation bugs
+const parseDateString = (dateStr: string) => {
+  const [year, month, day] = dateStr.split('-');
+  return new Date(Number(year), Number(month) - 1, Number(day), 12, 0, 0); 
+};
+
+export const calculateLongestStreak = (completedDates: string[]): number => {
+  if (!completedDates || completedDates.length === 0) return 0;
+  
+  // Sort dates oldest to newest
+  const sorted = [...completedDates].sort((a, b) => parseDateString(a).getTime() - parseDateString(b).getTime());
+  
+  let maxStreak = 1;
+  let currentStreak = 1;
+
+  for (let i = 1; i < sorted.length; i++) {
+    const prevDate = parseDateString(sorted[i - 1]);
+    const currDate = parseDateString(sorted[i]);
+    
+    // Check difference in days
+    const diffTime = Math.abs(currDate.getTime() - prevDate.getTime());
+    const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 1) {
+      currentStreak++;
+    } else if (diffDays > 1) {
+      currentStreak = 1;
+    }
+    
+    if (currentStreak > maxStreak) {
+      maxStreak = currentStreak;
+    }
+  }
+  
+  return maxStreak;
+};
+
 export const calculateStreak = (completedDates: string[]): number => {
   if (completedDates.length === 0) return 0;
   
-  const sortedDates = [...completedDates].sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+  const sortedDates = [...completedDates].sort((a, b) => parseDateString(b).getTime() - parseDateString(a).getTime());
   const today = getTodayStr();
   const yesterdayDate = new Date();
   yesterdayDate.setDate(yesterdayDate.getDate() - 1);
@@ -26,7 +63,7 @@ export const calculateStreak = (completedDates: string[]): number => {
   }
 
   let streak = 0;
-  let currentDate = new Date(sortedDates[0]);
+  let currentDate = parseDateString(sortedDates[0]);
 
   for (let i = 0; i < sortedDates.length; i++) {
     const dStr = sortedDates[i];

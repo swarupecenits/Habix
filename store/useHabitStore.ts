@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { FloraType, Habit } from '../types/habit';
-import { calculateGrowthScore, calculateStreak, getPlantStage } from '../utils/habitUtils';
+import { calculateGrowthScore, calculateLongestStreak, calculateStreak, getPlantStage } from '../utils/habitUtils';
 
 type HabitStore = {
   habits: Habit[];
@@ -38,12 +38,12 @@ export const useHabitStore = create<HabitStore>()(
           const habits = state.habits.map((habit) => {
             if (habit.id === id) {
               const isCompleted = habit.completedDates.includes(dateStr);
-              let newDates = isCompleted 
+              const newDates = isCompleted 
                 ? habit.completedDates.filter((d) => d !== dateStr)
                 : [...habit.completedDates, dateStr].sort().reverse();
               
               const newStreak = calculateStreak(newDates);
-              const longestStreak = Math.max(habit.longestStreak, newStreak);
+              const longestStreak = calculateLongestStreak(newDates);
               const fType = habit.floraType || 'oak';
               const plantStage = getPlantStage(newStreak, fType);
               const growthScore = calculateGrowthScore(newStreak, fType);
@@ -91,7 +91,7 @@ export const useHabitStore = create<HabitStore>()(
                 ...habit,
                 completedDates: newDates,
                 streak: newStreak,
-                longestStreak: Math.max(habit.longestStreak, newStreak),
+                longestStreak: calculateLongestStreak(newDates),
                 plantStage: getPlantStage(newStreak, fType),
                 growthScore: calculateGrowthScore(newStreak, fType),
               };
